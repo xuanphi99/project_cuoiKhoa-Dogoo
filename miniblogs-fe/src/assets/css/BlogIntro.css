@@ -1,0 +1,49 @@
+.container.blog-item {
+    background: white;
+    margin-left: 2rem;
+    overflow: hidden!important;
+    height: 13rem;
+}
+span.blog--read-more:hover {
+    color: red;
+}
+span.blog--content {
+    display: inline-block;
+    height: 3rem;
+    overflow: hidden;
+}
+
+span.blog--read-more {
+    cursor: pointer;
+    height: 1rem;
+    text-decoration-line: underline;
+}
+.img-blog {
+    width: auto;
+    height: auto;
+    margin: 1rem;
+    margin-right: 0rem;
+    overflow: hidden;
+}
+
+.img-blog img:hover {
+    transition: 0.4s;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.blog--title {
+    padding: 1rem 1rem 0rem 0rem;
+    box-sizing: border-box;
+    height: 13rem;
+}
+
+.img-blog img {
+    object-fit: cover;
+     /* width: 100%;
+    height: 100%;  */
+}
+
+.blog--createInfo{
+    height: 1.5rem;
+}

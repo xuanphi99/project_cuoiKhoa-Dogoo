@@ -1,0 +1,24 @@
+img.card-img-top.author--img {
+    margin: auto;
+    box-sizing: border-box;
+    width: 15rem;
+    padding-top: 2rem;
+    height: 15rem;
+    clip-path: circle(36%);
+    object-fit: cover;
+}
+img.card-img-top.author--img:hover {
+    transition: 0.4s;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+.icon span {
+    padding-right: 1rem;
+    font-size: 1rem;
+}
+.icon span:hover {
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    color: #3e383878;
+    cursor: pointer;
+
+}

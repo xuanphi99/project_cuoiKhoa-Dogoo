@@ -1,0 +1,919 @@
+swagger: '2.0'
+info:
+  description: The document of SpeedHome REST APIs
+  version: 1.0.0
+  title: SpeedHome REST APIs
+  contact:
+    name: Khoa VU
+    url: 'http://www.khoavu.net'
+    email: khoavd.it@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:8080'
+basePath: /speedhome/backend/v1
+
+paths:
+
+  /categories:
+    #-------------GET_ALL
+    get:
+
+      tags:
+        - Category
+      summary: Get All Category
+      operationId: getAllCategory
+      consumes: [ ]
+      responses:
+        200:
+          $ref: '#/responses/Categories'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+  /contacts:
+    post:
+      tags:
+        - Contacts
+      summary: Add contact
+      operationId: addContact
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          description: request
+          required: true
+          schema:
+            $ref: '#/definitions/ContactRequest'
+      responses:
+        200:
+          $ref: '#/responses/Contact'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+  /posts:
+
+    # parameters:
+    #   - $ref: "#/parameters/Request-Context"
+    get:
+      tags:
+        - Posts
+      summary: Get All Post
+      operationId: getAllPost
+
+      parameters:
+
+        - name: currentPage
+          in: query
+          description: currentPage
+          required: true
+          type: integer
+          default: 0
+          format: int32
+        - name: pageSize
+          in: query
+          description: pageSize
+          required: false
+          type: integer
+          default: 5
+          format: int32
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+
+
+      responses:
+        200:
+          $ref: '#/responses/PostResponse'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+    post:
+      tags:
+        - Posts
+      summary: addPost
+      operationId: addPost
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          description: file
+          required: true
+          type: file
+        - in: formData
+          name: jsonData
+          description: jsonData
+          required: true
+          type: string
+      responses:
+        200:
+          $ref: '#/responses/Post'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+
+  /posts/{idPost}:
+    parameters:
+      #   - $ref: "#/parameters/Request-Context"
+      - name: idPost
+        in: path
+        description: Post ID
+        required: true
+        type: string
+    put:
+      tags:
+        - Posts
+      summary: updatePostItem
+      operationId: updatePostItem
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          description: file
+          required: false
+          type: file
+        - in: formData
+          name: jsonData
+          description: jsonData
+          required: true
+          type: string
+
+      responses:
+        200:
+          $ref: '#/responses/Post'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+    delete :
+      tags :
+        - Posts
+      summary : Delete Post
+      operationId: removeItemPost
+      consumes : []
+      responses:
+        200:
+          $ref: '#/responses/OK'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+    get:
+      tags:
+        - Posts
+      summary : Get Detail Post
+      operationId : getDetailPost
+
+      responses:
+        200:
+          $ref: '#/responses/Post'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+
+  /property:
+    parameters:
+      - $ref: "#/parameters/Request-Context"
+    get:
+      tags:
+        - Properties
+      summary: Search Property
+      operationId: search
+      consumes: []
+      parameters:
+        - name: term
+          in: query
+          description: Keyword Search
+          required: true
+          type: string
+      responses:
+        200:
+          $ref: '#/responses/Properties'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+    post:
+      tags:
+        - Properties
+      summary: Add new a property
+      operationId: addProperty
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          description: request
+          required: true
+          schema:
+            $ref: '#/definitions/PropertyReq'
+      responses:
+        200:
+          $ref: '#/responses/Property'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+  /property/{id}:
+    parameters:
+      - $ref: "#/parameters/Request-Context"
+      - name: id
+        in: path
+        description: Property ID
+        required: true
+        type: string
+    put:
+      tags:
+        - Properties
+      summary: Update a Property
+      operationId: updateProperty
+      consumes: []
+      parameters:
+        - in: body
+          name: request
+          description: request
+          required: true
+          schema:
+            $ref: '#/definitions/PropertyReq'
+      responses:
+        200:
+          $ref: '#/responses/Property'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+    patch:
+      tags:
+        - Properties
+      summary: Update a Property
+      operationId: approveProperty
+      consumes: []
+      parameters:
+        - in: body
+          name: request
+          description: request
+          required: true
+          schema:
+            $ref: '#/definitions/PropertyApproveReq'
+      responses:
+        200:
+          $ref: '#/responses/Property'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+  /owners:
+    #-------------GET_ALL
+    get:
+
+      tags:
+        - Owner
+      summary : Get All Owner
+      operationId : getAllOwner
+      consumes: []
+      # parameters :
+      #   - name : term
+      #     in : query
+      #     description: query  all
+      #     required : false
+      #     type : string
+      responses:
+        200:
+          $ref: '#/responses/Owners'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+    post :
+      tags :
+        - Owner
+      summary : addOwner
+      operationId : addOwner
+      consumes :
+        - application/json
+      produces :
+        - application/json
+      parameters:
+        - in : body
+          name : request
+          description : request
+          required : true
+          schema :
+            $ref: '#/definitions/OwnerRequest'
+      responses:
+        200:
+          $ref: '#/responses/Owner'
+        201:
+          $ref: '#/responses/Created'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+  # Put Owner
+  /owners/{idOwner}:
+    parameters:
+      - name: idOwner
+        in: path
+        description: Owner ID
+        required: true
+        type: string
+
+    get:
+      tags:
+        - Owner
+      summary : Get Detail Owner
+      operationId : getDetailOwner
+
+      responses:
+        200:
+          $ref: '#/responses/Owner'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+    put:
+      tags:
+        - Owner
+      summary : Update Owner
+      operationId : updateOwner
+      consumes :
+        - application/json
+      produces :
+        - application/json
+      parameters :
+        - in : body
+          name : request
+          description : request
+          schema :
+            $ref: '#/definitions/OwnerRequest'
+      responses:
+        200:
+          $ref: '#/responses/Owner'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+    # DELETE Owner
+    delete :
+      tags :
+        - Owner
+      summary : Delete Owner
+      operationId: removeOwner
+      consumes : []
+      responses:
+        200:
+          $ref: '#/responses/OK'
+        401:
+          $ref: '#/responses/NoAuthorized'
+        403:
+          $ref: '#/responses/Forbidden'
+        404:
+          $ref: '#/responses/NotFound'
+
+
+definitions:
+  Property:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 030e5438-4d9e-4d41-aa68-ac04b05b7c3d
+      name:
+        type: string
+        example: Old Farm
+      desc:
+        type: string
+        example: Beautyful Old Farm
+      price:
+        type: number
+        format: double
+        example: 1500
+      type:
+        type: string
+        enum: [AGRICULTURE, RESIDENTIAL, COMMERCIAL, INDUSTRIAL]
+      status:
+        type: string
+        enum: [PENDING, APPROVED, REJECTED]
+      statusComment:
+        type: string
+        example: "Approved this property"
+  Properties:
+    type: array
+    items:
+      $ref: '#/definitions/Property'
+  PropertyReq:
+    type: object
+    required:
+      - name
+      - type
+    properties:
+      name:
+        type: string
+        example: Old Farm
+      desc:
+        type: string
+        example: Beautyful Old Farm
+      price:
+        type: number
+        format: double
+        example: 1.500
+      userId:
+        type: string
+        example: khoavu
+        description: who do action
+      type:
+        type: string
+        enum: [AGRICULTURE, RESIDENTIAL, COMMERCIAL, INDUSTRIAL]
+      status:
+        type: string
+        enum: [PENDING, APPROVED, REJECTED]
+  PropertyApproveReq:
+    type: object
+    required:
+      - status
+      - statusComment
+    properties:
+      status:
+        type: string
+        enum: [APPROVED, REJECTED]
+      statusComment:
+        type: string
+        example: "Approved this property"
+      userId:
+        type: string
+        example: khoavu
+        description: who do action
+  # OWNER
+  Owner:
+    type: object
+    properties:
+      idOwner :
+        type: string
+        example : 22
+      fullName:
+        type: string
+        example : "Đoàn Xuân Phi"
+      address:
+        type: string
+        example : "Nam Định"
+      age:
+        type: integer
+        example : 16
+  Owners :
+    type : array
+    items :
+      $ref : "#/definitions/Owner"
+
+
+
+  OwnerRequest:
+    type: object
+    required:
+      - fullName
+      - address
+      - age
+    properties:
+      idOwner:
+        type: string
+        example: 22
+      fullName:
+        type: string
+        example: "Đoàn Xuân Phi"
+      address:
+        type: string
+        example: "Khu 2 - Tòa C"
+      age:
+        type: integer
+        example: 16
+
+  OwnerRequestPatch  :
+    type: object
+    required:
+      - idOwner
+      - fullName
+    properties:
+      idOwner:
+        type: string
+        example: 22
+      fullName:
+        type: string
+        example: 'Doan Xuan Phi'
+
+  Category:
+    type: object
+    properties:
+      idCategory :
+        type: string
+        example : 012A-2030b-2300c
+      name:
+        type: string
+        example : "Đoàn Xuân Phi"
+  Categories :
+    type : array
+    items :
+      $ref : "#/definitions/Category"
+
+
+  CategoryRequest:
+    type: object
+    required:
+      - idCategory
+      - name
+    properties:
+      idCategory :
+        type: string
+        example : 012A-2030b-2300c
+      name:
+        type: string
+        example : "Đoàn Xuân Phi"
+
+  CategoryPatch  :
+    type: object
+    required:
+      - idCategory
+      - name
+    properties:
+      idCategory :
+        type: string
+        example : 012A-2030b-2300c
+      name:
+        type: string
+        example : "Đoàn Xuân Phi"
+
+  # Post
+  Post:
+    type: object
+    properties:
+      idPost :
+        type: string
+        example : 012A-2030b-2300c
+      imgName:
+        type: string
+        example : "post01.jpg"
+      imgURL:
+        type: string
+        example: "https://placeimg.com/640/480/any"
+
+      title:
+        type: string
+        example : "Tin news"
+
+      createDate:
+        type: string
+        format : date
+        example : "2021-02-11"
+
+      createBy:
+        type: string
+        example : "PhiDX"
+
+      modifyDate:
+        type: string
+        format : date
+        example : "2021-02-11"
+
+      modifyBy:
+        type: string
+        example : "PhiDX"
+
+      description:
+        type: string
+        example : "view its constituent classes"
+      content:
+        type: string
+        example : "view its constituent classes"
+      categoryId:
+        type: string
+        example : "012A-2030b-2300c"
+
+
+  Posts :
+    type : array
+    items :
+      $ref : "#/definitions/Post"
+
+  PostResponse:
+    type: object
+    properties:
+      data :
+        $ref: '#/definitions/Posts'
+      paging:
+        $ref: '#/definitions/Paging'
+
+
+
+  PostRequest:
+    type: object
+    required:
+      - imgName
+      - imgURL
+      - title
+      - modifyDate
+      - modifyBy
+      - description
+      - content
+      - categoryId
+    properties:
+      idPost :
+        type: string
+        example : 012A-2030b-2300c
+      imgName:
+        type: string
+        example : "post01.jpg"
+      imgURL:
+        type: string
+        example: "https://placeimg.com/640/480/any"
+
+      title:
+        type: string
+        example : "Tin news"
+
+      modifyDate:
+        type: string
+        format : date
+        example : "2021-02-11"
+
+      modifyBy:
+        type: string
+        example : "PhiDX"
+
+      description:
+        type: string
+        example : "view its constituent classes"
+      content:
+        type: string
+        example : "view its constituent classes"
+      categoryId:
+        type: string
+        example : "012A-2030b-2300c"
+
+  # Paging
+
+  Paging:
+    type: object
+    properties:
+      currentPage:
+        type: integer
+        format: int32
+      nextPageURL:
+        type: string
+      pageSize:
+        type: integer
+        format: int32
+      previousPageURL:
+        type: string
+      totalElement:
+        type: integer
+        format: int32
+      totalPage:
+        type: integer
+        format: int32
+    title: Paging
+
+  # Contact
+  Contact:
+    type: object
+    properties:
+      idContact :
+        type: string
+        example : 012A-2030b-2300c
+      userName:
+        type: string
+        example : "PhiDX"
+      email:
+        type: string
+        format : email
+        example : "PhiDX@gmail.com"
+      message:
+        type: string
+        example : "Lien he hotline ..."
+
+  Contacts :
+    type : array
+    items :
+      $ref : "#/definitions/Contact"
+
+
+  ContactRequest:
+    type: object
+    required:
+      - userName
+      - email
+      - message
+    properties:
+      userName:
+        type: string
+        example : "PhiDX"
+      email:
+        type: string
+        format : email
+        example : "PhiDX@gmail.com"
+      message:
+        type: string
+        example : "Lien he hotline ..."
+
+  #Author
+
+  Author:
+    type: object
+    properties:
+      idAuthor :
+        type: string
+        example : "012A-2030b-2300c"
+      name:
+        type: string
+        example : "PhiDX"
+      imgURL:
+        type: string
+        example : "https://placeimg.com/640/480/any"
+      imgName:
+        type: string
+        example : "author.jpg"
+      description:
+        type: string
+        example : "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+
+  Authors :
+    type : array
+    items :
+      $ref : "#/definitions/Author"
+
+
+  AuthorRequest:
+    type: object
+    required:
+      - idAuthor
+      - name
+      - imgURL
+      - imgName
+      - description
+    properties:
+      idAuthor :
+        type: string
+        example : 012A-2030b-2300c
+      name:
+        type: string
+        example : "PhiDX"
+      imgURL:
+        type: string
+        example : "https://placeimg.com/640/480/any"
+      imgName:
+        type: string
+        example : "author.jpg"
+      description:
+        type: string
+        example : "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+
+
+
+responses:
+
+  # Post
+  Post :
+    description : 'Post Response'
+    schema :
+      $ref : '#/definitions/Post'
+  Posts :
+    description : 'List Post Response'
+    schema :
+      $ref : '#/definitions/Posts'
+  PostResponse:
+    description : 'List Post pagination'
+    schema:
+      $ref : '#/definitions/PostResponse'
+
+
+
+  # Author
+  Author :
+    description : 'Author Response'
+    schema :
+      $ref : '#/definitions/Author'
+  Authors :
+    description : 'List Author Response'
+    schema :
+      $ref : '#/definitions/Authors'
+
+
+  # Contact
+  Contact :
+    description : 'Contact Response'
+    schema :
+      $ref : '#/definitions/Contact'
+  Contacts :
+    description : 'List Contact Response'
+    schema :
+      $ref : '#/definitions/Contacts'
+
+
+  # Category
+  Category :
+    description : 'Category Response'
+    schema :
+      $ref : '#/definitions/Category'
+  Categories :
+    description : 'List Category Response'
+    schema :
+      $ref : '#/definitions/Categories'
+
+
+
+  Owner :
+    description : 'Owner Response'
+    schema :
+      $ref : '#/definitions/Owner'
+  Owners :
+    description : 'List Owner Response'
+    schema :
+      $ref : '#/definitions/Owners'
+
+  Property:
+    description: 'Property Response'
+    schema:
+      $ref: '#/definitions/Property'
+  Properties:
+    description: 'Properties Response'
+    schema:
+      $ref: '#/definitions/Properties'
+  OK:
+    description: '200: OK'
+  Created:
+    description: '201: Created'
+  Accepted:
+    description: '202: Accepted'
+  NoContent:
+    description: '204: NoContent'
+  BadRequest:
+    description: '400: Bad Request'
+  NoAuthorized:
+    description: '401: No Authorized'
+  Forbidden:
+    description: '403: Forbidden'
+  NotFound:
+    description: '404: Not Found'
+  InternalServerError:
+    description: '500: Internal Server Error'
+parameters:
+  Request-Context:
+    name: apikey
+    in: header
+    description: Request context
+    required: true
+    type: string

@@ -1,0 +1,7 @@
+.container.menu {
+    padding: 0rem;
+}
+
+nav.navbar.navbar-expand-sm.navbar-light.bg-light.menu__nav {
+    background: none!important;
+}

@@ -1,0 +1,14 @@
+.about__info{
+    background: white;
+    overflow: hidden!important;
+    width: 100%;
+    border: none;
+}
+
+.about {
+    background: white;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
